@@ -1,4 +1,4 @@
-# Stage Management System
+# Game Related: Stage Management System
 
 ## Overview
 
@@ -21,17 +21,17 @@ This project is a Python-based stage management system designed for organizing a
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/your-repo.git
+    git clone https://github.com/BynJerL/Game-Related
     ```
 
 2. Navigate to the project directory:
     ```bash
-    cd your-repo
+    cd Game-Related
     ```
 
 3. Run the Python script:
     ```bash
-    python stage_management.py
+    python ScenesTest.py
     ```
 
 ## Usage
