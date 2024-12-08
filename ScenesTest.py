@@ -30,27 +30,35 @@ stage_catalog = [
     Stage("Quest #10", ["Prologue", "Act I", "Act II", "Quest #9"]),
 ]
 
-uncompleted_stages = [stage.Name for stage in stage_catalog]
-available_stages = []
-
 # Function to show available stages based on completed ones
 def show_available_stages(completed_stages):
     available_stages = [stage.Name for stage in stage_catalog if stage.AreRequirementsMet(completed_stages)]
     return available_stages
 
-# Example of adding completed stages and checking availability
-# completed_stages.append("Prologue")
-# completed_stages.append("Act I")
-# completed_stages.append("Act II")
-
-# Print stages that are now available
-print("Available stages:", show_available_stages(completed_stages))
+# Main loop for user interaction
 while True:
-    print("Available stages:")
     available_stages = show_available_stages(completed_stages)
+    if not available_stages:
+        print("No available stages to complete.")
+        break
+    
+    print("\nAvailable stages:")
     for i, stage in enumerate(available_stages):
         print(f"{i + 1} <- {stage}")
-    choice = int(input("Select: "))
-    chosen_stage = available_stages[choice - 1]
-    if chosen_stage not in completed_stages:
-        completed_stages.append(chosen_stage)
+    
+    try:
+        choice = int(input("Select a stage to complete (or 0 to exit): "))
+        if choice == 0:
+            break
+        chosen_stage = available_stages[choice - 1]
+        
+        if chosen_stage not in completed_stages:
+            completed_stages.append(chosen_stage)
+            print(f"Stage '{chosen_stage}' marked as completed.")
+        else:
+            print(f"Stage '{chosen_stage}' is already completed.")
+    except (ValueError, IndexError):
+        print("Invalid choice. Please select a valid stage number.")
+    
+    # Display completed stages for user
+    print("\nCompleted stages:", completed_stages)
