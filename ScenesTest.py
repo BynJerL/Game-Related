@@ -1,33 +1,35 @@
+# Catalog of stages, including dependencies
 class Stage:
-    def __init__(self, Name, Requirements=None):
+    def __init__(self, ID, Name, Requirements=None):
+        self.ID = ID  # Unique identifier for each stage
         self.Name = Name
         self.Requirements = Requirements if Requirements else []
 
     def AreRequirementsMet(self, completed_stages):
         """Check if the stage's requirements are met based on completed stages."""
-        return all(req in completed_stages for req in self.Requirements)
+        return all(stage.Name in completed_stages for stage in stage_catalog if stage.ID in self.Requirements)
 
 # List to store stages that have been completed
 completed_stages = []
 
-# Catalog of stages, including dependencies
+# Catalog of stages, now with IDs
 stage_catalog = [
-    Stage("Prologue"),
-    Stage("Act I", ["Prologue"]),
-    Stage("Act II", ["Prologue", "Act I"]),
-    Stage("Post Act II: Branch A Part I", ["Prologue", "Act I", "Act II"]),
-    Stage("Post Act II: Branch B", ["Prologue", "Act I", "Act II"]),
-    Stage("Post Act II: Branch A Part II", ["Prologue", "Act I", "Act II", "Post Act II: Branch A Part I"]),
-    Stage("Quest #1", ["Prologue", "Act I"]),
-    Stage("Quest #2", ["Prologue", "Act I"]),
-    Stage("Quest #3", ["Prologue", "Act I"]),
-    Stage("Quest #4", ["Prologue", "Act I", "Quest #1"]),
-    Stage("Quest #5", ["Prologue", "Act I", "Quest #2"]),
-    Stage("Quest #6", ["Prologue", "Act I", "Act II"]),
-    Stage("Quest #7", ["Prologue", "Act I", "Act II"]),
-    Stage("Quest #8", ["Prologue", "Act I", "Act II", "Quest #3"]),
-    Stage("Quest #9", ["Prologue", "Act I", "Act II", "Quest #6"]),
-    Stage("Quest #10", ["Prologue", "Act I", "Act II", "Quest #9"]),
+    Stage(1, "Prologue"),
+    Stage(2, "Act I", [1]),
+    Stage(3, "Act II", [1, 2]),
+    Stage(4, "Post Act II: Branch A Part I", [1, 2, 3]),
+    Stage(5, "Post Act II: Branch B", [1, 2, 3]),
+    Stage(6, "Post Act II: Branch A Part II", [1, 2, 3, 4]),
+    Stage(7, "Quest #1", [1, 2]),
+    Stage(8, "Quest #2", [1, 2]),
+    Stage(9, "Quest #3", [1, 2]),
+    Stage(10, "Quest #4", [1, 2, 7]),
+    Stage(11, "Quest #5", [1, 2, 8]),
+    Stage(12, "Quest #6", [1, 2, 3]),
+    Stage(13, "Quest #7", [1, 2, 3]),
+    Stage(14, "Quest #8", [1, 2, 3, 9]),
+    Stage(15, "Quest #9", [1, 2, 3, 12]),
+    Stage(16, "Quest #10", [1, 2, 3, 15]),
 ]
 
 # Function to show available stages based on completed ones
