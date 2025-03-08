@@ -21,14 +21,21 @@ class Character:
         self.temp_defense = 0
     
 character_list = [
-    Character("Alicia", CharacterType.PROTAGONIST, 150, 20, 15, 10),
-    Character("Brine", CharacterType.OPPONENT, 200, 10, 20, 5)
+    Character("Alicia", CharacterType.PROTAGONIST, 200, 20, 20, 10),
+    # Character("Brine", CharacterType.OPPONENT, 200, 10, 20, 5)
+
+    # Multiple opponents
+    Character("Skeleton", CharacterType.OPPONENT, 50, 0, 10, 5),
+    Character("Skeleton", CharacterType.OPPONENT, 50, 0, 10, 5),
+    Character("Skeleton", CharacterType.OPPONENT, 50, 0, 10, 5),
 ]
 
 battle_state = BattleState.IN_PROGRESS
 
 while battle_state == BattleState.IN_PROGRESS:
     for character in character_list:
+        if character.hp <= 0:
+            continue # Skip turn if character is K.O.
         print(f"{character.name} ({character.character_type.value}) - HP: {character.hp}, SP: {character.sp}, ATK: {character.atk}, DEF: {character.defense}")
 
         match character.character_type:
@@ -45,7 +52,7 @@ while battle_state == BattleState.IN_PROGRESS:
 
                     # Make a list of opponents to choose from
                     for i, opponent in enumerate(character_list):
-                        if opponent.character_type == CharacterType.OPPONENT:
+                        if opponent.character_type == CharacterType.OPPONENT and opponent.hp > 0:
                             print(f"{i + 1} <- {opponent.name} - HP: {opponent.hp}, SP: {opponent.sp}, ATK: {opponent.atk}, DEF: {opponent.defense}")
                     
                     # Select a target
@@ -54,7 +61,8 @@ while battle_state == BattleState.IN_PROGRESS:
 
                     damage = int(character.atk - 0.2 * (target.defense + target.temp_defense)) # Simple damage calculation
                     target.hp -= damage # Apply damage to target
-                    target.temp_defense = 0 # Reset temporary defense
+                    target.temp_defense = 0     # Reset temporary defense
+                    character.temp_defense = 0  # Also reset temporary defense for attacker
 
                     print(f"{target.name} took {damage} damage.")
 
@@ -78,7 +86,7 @@ while battle_state == BattleState.IN_PROGRESS:
                 elif action == 3:
                     print("You chose to use a skill.")
                 
-                print()
+                print() # Add a line break
                 
             case CharacterType.OPPONENT:
                 if character.hp <= 0:
@@ -95,6 +103,7 @@ while battle_state == BattleState.IN_PROGRESS:
                         damage = int(character.atk - 0.2 * (target.defense + target.temp_defense))
                         target.hp -= damage
                         target.temp_defense = 0
+                        character.temp_defense = 0
 
                         print(f"{target.name} took {damage} damage.")
 
@@ -114,6 +123,7 @@ while battle_state == BattleState.IN_PROGRESS:
                         print(f"{character.name} chose to defend.")
                         character.temp_defense = int(2 * character.defense) # Temporary defense boost
 
+                print() # Add a line break
             case _:
                 print("This character is not recognized.")
 
