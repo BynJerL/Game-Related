@@ -1,0 +1,5 @@
+cycle_queue.append(enemy_catalog['E0001'].copy())
+cycle_queue.append(enemy_catalog['E0001'].copy())
+cycle_queue.append(enemy_catalog['E0001'].copy())
+cycle_queue.append(enemy_catalog['E0001'].copy())
+cycle_queue.append(enemy_catalog['E0002'].copy())
